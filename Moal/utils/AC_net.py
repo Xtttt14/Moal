@@ -53,7 +53,7 @@ def get_backbone(args, pretrained=False):
 
     elif '_adapter' in name:
         ffn_num = args["ffn_num"]
-        if args["model_name"] == "adapt_ac_com_sdc_ema_auto" :
+        if args["model_name"].lower() == "adapt_ac_com_sdc_ema_auto" :
             from backbone import vision_transformer_adapter
             from easydict import EasyDict
             tuning_config = EasyDict(
