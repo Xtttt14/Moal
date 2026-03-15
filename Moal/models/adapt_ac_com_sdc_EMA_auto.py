@@ -204,8 +204,8 @@ class Learner(BaseLearner):
     def _progreessive_train(self, train_loader, test_loader, optimizer, scheduler):
         prog_bar = tqdm(range(self.args['progreesive_epoch']))
 
-
-        EMA_model = self._network.copy().freeze()
+        network_module = self._network.module if isinstance(self._network, nn.DataParallel) else self._network
+        EMA_model = network_module.copy().freeze()
         alpha = self.args['alpha']
 
         for _, epoch in enumerate(prog_bar):
@@ -228,7 +228,7 @@ class Learner(BaseLearner):
                 correct += preds.eq(targets.expand_as(preds)).cpu().sum()
                 total += len(targets)
 
-            for param, ema_param in zip(self._network.backbones[0].parameters(), EMA_model.backbones[0].parameters()):
+            for param, ema_param in zip(network_module.backbones[0].parameters(), EMA_model.backbones[0].parameters()):
                 ema_param.data = alpha * ema_param.data + (1 - alpha) * param.data
 
             scheduler.step()
@@ -246,7 +246,7 @@ class Learner(BaseLearner):
             prog_bar.set_description(info)
 
         for param, ema_param in zip(EMA_model.backbones[0].parameters(),
-                                    self._network.backbones[0].parameters()):
+                                    network_module.backbones[0].parameters()):
             ema_param.data =  param.data
 
         logging.info(info)
