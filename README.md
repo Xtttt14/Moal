@@ -53,8 +53,34 @@ When using the pre-trained weights of iBOT and DINO, you should download the cor
 ```
 ### To Train
 
+**Single GPU:**
 ```bash
-python main.py --config=exps\MoAL_[dataset_name].json
+python main.py --config=exps/MoAL_[dataset_name].json
+```
+
+**Multi-GPU training** is supported via `torch.nn.DataParallel`. You can enable it in two ways:
+
+1. **Via command-line argument** (overrides the config file):
+```bash
+# Use GPUs 0 and 1
+python main.py --config=exps/MoAL_cifar224.json --device 0 1
+
+# Use GPUs 0, 1, and 2
+python main.py --config=exps/MoAL_cifar224.json --device 0 1 2
+```
+
+2. **Via the JSON config file** — set the `"device"` field to a list of GPU IDs:
+```json
+{
+    "device": [0, 1]
+}
+```
+
+> **Note:** Multi-GPU training uses `torch.nn.DataParallel` (single-node, data-parallel). The first GPU in the list is used as the primary device. Make sure all listed GPU IDs are available on your machine.
+
+**CPU training** (for debugging):
+```bash
+python main.py --config=exps/MoAL_cifar224.json --device -1
 ```
 
 
