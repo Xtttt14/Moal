@@ -536,6 +536,8 @@ class MultiBranchCosineIncrementalNet(BaseNet):
 
     
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs=copy.deepcopy(self.args)
             newargs['backbone_type']=newargs['backbone_type'].replace('_ssf','')
@@ -638,6 +640,8 @@ class MultiBranchCosineIncrementalNet_AC(BaseNet):
         return out
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs = copy.deepcopy(self.args)
             newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')
@@ -745,6 +749,8 @@ class MultiBranchCosineIncrementalNet_progressive_AC(BaseNet):
         return out
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs = copy.deepcopy(self.args)
             newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')
@@ -860,6 +866,8 @@ class MultiBranchCosineIncrementalNet_progressive_AC_linear(BaseNet):
         return out
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs = copy.deepcopy(self.args)
             newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')
@@ -993,6 +1001,8 @@ class MultiBranchCosineIncrementalNet_progressive_AC_single_com(BaseNet):
         return features
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs = copy.deepcopy(self.args)
             newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')
@@ -1119,6 +1129,8 @@ class MultiBranchCosineIncrementalNet_progressive_AC_single(BaseNet):
         return out
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs = copy.deepcopy(self.args)
             newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')
@@ -1223,6 +1235,8 @@ class MultiBranchCosineIncrementalNet_adapt_AC(BaseNet):
         return out
 
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         # if 'ssf' in self.args['backbone_type']:
         #     newargs = copy.deepcopy(self.args)
         #     newargs['backbone_type'] = newargs['backbone_type'].replace('_ssf', '')

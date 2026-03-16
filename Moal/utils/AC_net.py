@@ -533,6 +533,8 @@ class MultiBranchCosineIncrementalNet(BaseNet):
 
     
     def construct_dual_branch_network(self, tuned_model):
+        if isinstance(tuned_model, nn.DataParallel):
+            tuned_model = tuned_model.module
         if 'ssf' in self.args['backbone_type']:
             newargs=copy.deepcopy(self.args)
             newargs['backbone_type']=newargs['backbone_type'].replace('_ssf','')
