@@ -92,7 +92,7 @@ class Learner(BaseLearner):
             print('Multiple GPUs')
             self._network = nn.DataParallel(self._network, self._multiple_gpus)
         self._train(self.train_loader, self.test_loader, self.train_loader_for_protonet)
-        if len(self._multiple_gpus) > 1:
+        if isinstance(self._network, nn.DataParallel):
             self._network = self._network.module
 
     def _train(self, train_loader, test_loader, train_loader_for_protonet):
